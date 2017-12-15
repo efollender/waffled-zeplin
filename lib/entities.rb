@@ -2,7 +2,7 @@ require 'octokit'
 require 'httparty'
 require 'json'
 
-$client = Octokit::Client.new(:access_token => ENV['PERSONAL_TOKEN'])
+client = Octokit::Client.new(:access_token => ENV['PERSONAL_TOKEN'])
 
 
 def call_slack(req, params, slackdata)
@@ -25,7 +25,7 @@ def json_response_for_slack(params)
 end
 
 def create_issue(title, link)
-  $client.create_issue(ENV['REPO'], title, link)
+  client.create_issue(ENV['REPO'], title, link)
 end
 
 def store_tokens(params)
