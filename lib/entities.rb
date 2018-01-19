@@ -2,7 +2,7 @@ require 'octokit'
 require 'httparty'
 require 'json'
 
-client = Octokit::Client.new(:access_token => ENV['PERSONAL_TOKEN'])
+client = Octokit::Client.new(:login => ENV['GITHUB_LOGIN'], :password => ENV['GITHUB_PW'])
 
 
 def call_slack(req, params, slackdata)
