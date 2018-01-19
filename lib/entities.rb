@@ -26,7 +26,11 @@ def json_response_for_slack(params)
     link = get_link(pretext)
     create_issue(text, link)
   end
-  return params['event'].to_json
+  response = {
+    :repo => ENV['REPO'],
+    :event => params['event']
+  }
+  return response.to_json
 end
 
 def create_issue(title, link)
