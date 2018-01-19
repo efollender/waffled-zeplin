@@ -8,11 +8,10 @@ set :bind, '0.0.0.0'
 USERNAME = 'Waff(led) Zeplin'
 
 post '/' do
-  body = JSON.parse request.body.read
+  received = JSON.parse request.body.read
   content_type :json
-  response = json_response_for_slack(body)
-  puts response.to_json
-  response.to_json
+  response = json_response_for_slack(received)
+  body response.to_json
 end
 
 post '/authorize' do
@@ -21,3 +20,6 @@ post '/authorize' do
   body store_tokens(body)
 end
 
+after do
+  response.body = JSON.dump(response.body)
+end
