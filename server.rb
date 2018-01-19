@@ -11,7 +11,7 @@ post '/' do
   received = JSON.parse request.body.read
   content_type :json
   response = json_response_for_slack(received)
-  body response.to_json
+  body response
 end
 
 post '/authorize' do
