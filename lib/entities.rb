@@ -25,12 +25,13 @@ def json_response_for_slack(params)
     link = get_link(pretext)
     issue = create_issue(text, link)
   end
+  valid = is_issue? text
   response = {
     :repo => ENV['REPO'],
     :issue => issue,
     :bot => bot,
     :text => text,
-    :is_issue => is_issue? text,
+    :is_issue => valid,
     :client => client.inspect
   }
   return response.to_json
