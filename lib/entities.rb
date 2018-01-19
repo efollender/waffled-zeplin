@@ -18,7 +18,6 @@ def json_response_for_slack(params)
     return challenge
   end
   bot = params['event']['bot_id']
-  puts bot
   return if bot.nil?
   text = params['event']['attachments'][0]['text']
   pretext = params['event']['attachments'][0]['pretext']
@@ -28,8 +27,11 @@ def json_response_for_slack(params)
   end
   response = {
     :repo => ENV['REPO'],
-    :event => params['event'],
-    :issue => issue
+    :issue => issue,
+    :bot => bot,
+    :text => text,
+    :is_issue => is_issue? text,
+    :client => client.inspect
   }
   return response.to_json
 end
@@ -47,7 +49,6 @@ def is_zeplin?(user_id)
 end
 
 def is_issue?(text)
-  puts text.downcase()
   return text.downcase().include? ENV['TRIGGER'].downcase()
 end
 
