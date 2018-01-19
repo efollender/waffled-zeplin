@@ -19,7 +19,3 @@ post '/authorize' do
   status 200
   body store_tokens(body)
 end
-
-after do
-  response.body = JSON.dump(response.body)
-end
