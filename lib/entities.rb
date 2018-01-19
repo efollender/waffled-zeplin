@@ -18,6 +18,7 @@ def json_response_for_slack(params)
     return challenge
   end
   bot = params['event']['bot_id']
+  puts bot
   return if bot.nil?
   text = params['event']['attachments'][0]['text']
   pretext = params['event']['attachments'][0]['pretext']
