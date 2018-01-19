@@ -35,7 +35,7 @@ def json_response_for_slack(params)
     :bot => bot,
     :text => text,
     :is_issue => valid,
-    :token => ENV['PERSONAL_TOKEN']
+    :client => client.inspect,
   }
   return response.to_json
 end
