@@ -26,7 +26,7 @@ def json_response_for_slack(params)
     link = get_link(pretext)
     create_issue(text, link)
   end
-  return response.to_json
+  return response
 end
 
 def create_issue(title, link)

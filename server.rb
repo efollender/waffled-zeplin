@@ -10,7 +10,9 @@ USERNAME = 'Waff(led) Zeplin'
 post '/' do
   body = JSON.parse request.body.read
   content_type :json
-  json_response_for_slack(body)
+  response = json_response_for_slack(body)
+  puts response.to_json
+  response.to_json
 end
 
 post '/authorize' do
