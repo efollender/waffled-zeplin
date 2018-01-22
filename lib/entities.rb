@@ -2,7 +2,7 @@ require 'octokit'
 require 'httparty'
 require 'json'
 
-client = Octokit::Client.new(:login => ENV['GITHUB_LOGIN'], :password => ENV['PERSONAL_TOKEN'])
+$client = Octokit::Client.new(:login => ENV['GITHUB_LOGIN'], :password => ENV['PERSONAL_TOKEN'])
 
 
 def call_slack(req, params, slackdata)
@@ -26,10 +26,10 @@ def json_response_for_slack(params)
     issue = create_issue(text, link)
   end
   valid = is_issue? text
-  client = Octokit::Client.new(:login => ENV['GITHUB_LOGIN'], :password => ENV['PERSONAL_TOKEN'])
   response = {
     :repo => ENV['REPO'],
-    :client => client.user,
+    :client => $client.user,
+    :issue => issue,
     :bot => bot,
     :text => text,
     :is_issue => valid,
@@ -38,7 +38,7 @@ def json_response_for_slack(params)
 end
 
 def create_issue(title, link)
-  return client.create_issue(ENV['REPO'], title, link)
+  return $client.create_issue(ENV['REPO'], title, link)
 end
 
 def store_tokens(params)
