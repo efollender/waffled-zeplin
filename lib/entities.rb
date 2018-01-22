@@ -28,7 +28,7 @@ def json_response_for_slack(params)
   valid = is_issue? text
   response = {
     :repo => ENV['REPO'],
-    :client => $client.user,
+    :client => $client.user.login,
     :issue => issue,
     :bot => bot,
     :text => text,
