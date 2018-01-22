@@ -13,7 +13,7 @@ def call_slack(req, params, slackdata)
 end
 
 def create_issue(title, link)
-  return $client.create_issue(ENV['REPO'], title, link)
+  return $client.create_issue(ENV['REPO'], title, link, {:labels => 'zeplin,ui,frontend'})
 end
 
 def store_tokens(params)
@@ -54,7 +54,7 @@ def json_response_for_slack(params)
   }
   if zeplin and valid
     link = get_link(pretext)
-    issue = create_issue(text, 'bljsdhsajdhkas')
+    issue = create_issue(text, link)
     response = {
       :repo => ENV['REPO'],
       :client => $client.user.login,
