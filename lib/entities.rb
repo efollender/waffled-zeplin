@@ -30,7 +30,7 @@ def json_response_for_slack(params)
       :issue => issue,
       :bot => bot,
       :text => text,
-      :is_issue => valid,
+      :link => link,
     }
     return response.to_json
   end
