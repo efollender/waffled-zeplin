@@ -12,32 +12,6 @@ def call_slack(req, params, slackdata)
   return json
 end
 
-def json_response_for_slack(params)
-  challenge = params['challenge']
-  if challenge
-    return challenge
-  end
-  bot = params['event']['bot_id']
-  return if bot.nil?
-  text = params['event']['attachments'][0]['text']
-  pretext = params['event']['attachments'][0]['pretext']
-  zeplin = is_zeplin(bot)
-  valid = is_issue(text)
-  if zeplin and valid
-    link = get_link(pretext)
-    issue = create_issue(text, 'bljsdhsajdhkas')
-    response = {
-      :repo => ENV['REPO'],
-      :client => $client.user.login,
-      :issue => issue,
-      :bot => bot,
-      :text => text,
-      :link => link,
-    }
-    return response.to_json
-  end
-end
-
 def create_issue(title, link)
   return $client.create_issue(ENV['REPO'], title, link)
 end
@@ -59,4 +33,36 @@ def get_link(text)
   link_end = text.index('|', link_begin)
   link = text[link_begin...link_end]
   return link
+end
+
+def json_response_for_slack(params)
+  challenge = params['challenge']
+  if challenge
+    return challenge
+  end
+  bot = params['event']['bot_id']
+  return if bot.nil?
+  text = params['event']['attachments'][0]['text']
+  pretext = params['event']['attachments'][0]['pretext']
+  zeplin = is_zeplin(bot)
+  valid = is_issue(text)
+  response = {
+    :zeplin => zeplin,
+    :valid => valid,
+    :sent => bot,
+    :env => ENV['BOT_ID']
+  }
+  if zeplin and valid
+    link = get_link(pretext)
+    issue = create_issue(text, 'bljsdhsajdhkas')
+    response = {
+      :repo => ENV['REPO'],
+      :client => $client.user.login,
+      :issue => issue,
+      :bot => bot,
+      :text => text,
+      :link => link,
+    }
+  end
+  return response.to_json
 end
