@@ -25,11 +25,10 @@ def json_response_for_slack(params)
     link = get_link(pretext)
     issue = create_issue(text, link)
   end
-  client = Octokit::Client.new(:login => ENV['GITHUB_LOGIN'], :password => ENV['PERSONAL_TOKEN'])
   valid = is_issue? text
   response = {
     :repo => ENV['REPO'],
-    :client => client,
+    :client => client.user,
     :bot => bot,
     :text => text,
     :is_issue => valid,
