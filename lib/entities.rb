@@ -23,18 +23,17 @@ def json_response_for_slack(params)
   pretext = params['event']['attachments'][0]['pretext']
   if is_zeplin? bot and is_issue? text
     link = get_link(pretext)
-    issue = create_issue(text, link)
+    issue = create_issue(text, 'bljsdhsajdhkas')
+    response = {
+      :repo => ENV['REPO'],
+      :client => $client.user.login,
+      :issue => issue,
+      :bot => bot,
+      :text => text,
+      :is_issue => valid,
+    }
+    return response.to_json
   end
-  valid = is_issue? text
-  response = {
-    :repo => ENV['REPO'],
-    :client => $client.user.login,
-    :issue => issue,
-    :bot => bot,
-    :text => text,
-    :is_issue => valid,
-  }
-  return response.to_json
 end
 
 def create_issue(title, link)
