@@ -21,7 +21,9 @@ def json_response_for_slack(params)
   return if bot.nil?
   text = params['event']['attachments'][0]['text']
   pretext = params['event']['attachments'][0]['pretext']
-  if is_zeplin? bot and is_issue? text
+  zeplin = is_zeplin(bot)
+  valid = is_issue(text)
+  if zeplin and valid
     link = get_link(pretext)
     issue = create_issue(text, 'bljsdhsajdhkas')
     response = {
@@ -34,10 +36,6 @@ def json_response_for_slack(params)
     }
     return response.to_json
   end
-  return {
-    :zeplin => is_zeplin? bot,
-    :issue => is_issue? text
-  }.to_json
 end
 
 def create_issue(title, link)
@@ -48,11 +46,11 @@ def store_tokens(params)
   puts params
 end
 
-def is_zeplin?(user_id)
-  return user_id === ENV['BOT_ID']
+def is_zeplin(user_id)
+  return user_id.downcase() === ENV['BOT_ID'].downcase()
 end
 
-def is_issue?(text)
+def is_issue(text)
   return text.downcase().include? ENV['TRIGGER'].downcase()
 end
 
