@@ -34,6 +34,10 @@ def json_response_for_slack(params)
     }
     return response.to_json
   end
+  return {
+    :zeplin => is_zeplin? bot,
+    :issue => is_issue? text
+  }.to_json
 end
 
 def create_issue(title, link)
