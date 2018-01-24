@@ -12,8 +12,20 @@ def call_slack(req, params, slackdata)
   return json
 end
 
+def is_design(text)
+  return text.downcase().include? ENV['DESIGN_TRIGGER'].downcase()
+end
+
+def is_other(text)
+  return text.downcase().include? ENV['TRIGGER'].downcase()
+end
+
 def create_issue(title, link)
-  return $client.create_issue(ENV['REPO'], title, link, {:labels => 'zeplin,ui,frontend'})
+  if is_design(title)
+    return $client.create_issue(ENV['REPO'], title, link, {:labels => 'design'})
+  else
+    return $client.create_issue(ENV['REPO'], title, link, {:labels => 'zeplin,ui,frontend'})
+  end
 end
 
 def store_tokens(params)
@@ -25,7 +37,7 @@ def is_zeplin(user_id)
 end
 
 def is_issue(text)
-  return text.downcase().include? ENV['TRIGGER'].downcase()
+  return is_design(text) || is_other(text)
 end
 
 def get_link(text)
