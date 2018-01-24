@@ -21,10 +21,11 @@ def is_other(text)
 end
 
 def create_issue(title, link)
+  formatted_link = '[View in Zeplin](#{link})' + 
   if is_design(title)
-    return $client.create_issue(ENV['REPO'], title, link, {:labels => 'design'})
+    return $client.create_issue(ENV['REPO'], title, formatted_link, {:labels => 'design'})
   else
-    return $client.create_issue(ENV['REPO'], title, link, {:labels => 'zeplin,ui,frontend'})
+    return $client.create_issue(ENV['REPO'], title, formatted_link, {:labels => 'zeplin,ui,frontend'})
   end
 end
 
